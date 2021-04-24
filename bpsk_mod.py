@@ -32,6 +32,27 @@ with open(data_file_name) as fdata:
 # Ковертируем в int
 data_array = np.array(data_list, dtype = np.int32())
 
+"""
+# Относительное кодирование потока бит
+# Всё что больше 0 это 1, меньше или равно 0 это 0
+for bit in enumerate(data_array):
+    if bit[1] > 0:
+        data_array[bit[0]] = 1
+    else:
+        data_array[bit[0]] = 0
+
+# Зададим начальное значение для относительного кодирования
+prev_bit = 0
+bit_value = 0
+
+# Само относительное кодирование, складываем
+for bit in enumerate(data_array):
+    bit_value = data_array[bit[0]]
+    data_array[bit[0]] = prev_bit ^ data_array[bit[0]]
+    prev_bit = bit_value
+"""
+
+# Преобразуем поток бит в знаковый
 # Всё что больше 0 это 1, меньше это -1
 for bit in enumerate(data_array):
     if bit[1] > 0:
@@ -47,7 +68,7 @@ print("Длина посылки, секунд =", len(data_array)/carrier_frequ
 
 # Формируем отсчёты косинуса
 cos_samples = np.arange(samplerate / carrier_frequency)
-cos_signal = np.cos(2 * np.pi * carrier_frequency * cos_samples / samplerate)
+cos_signal = np.sin(2 * np.pi * carrier_frequency * cos_samples / samplerate)
 
 # Формруем выходные данные, пока всё 0
 output_signal = np.linspace(0, 0, int(signal_length))
