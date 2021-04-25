@@ -90,7 +90,7 @@ for i in range(int(signal_length)):
     
 
 # Сохраним в файл
-output_signal*= 32700
+output_signal*= 32767
 ountput_signal_int = np.int16(output_signal)
 wavfile.write(wav_file_name, samplerate, ountput_signal_int)
 
