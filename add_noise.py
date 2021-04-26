@@ -14,7 +14,7 @@ wav_file_in_name = 'bpsk_out.wav'
 wav_file_out_name = 'bpsk_out_and_noise.wav'
 
 # Требуемое соотношение сигнал/шум
-traget_signal_noise_ration_db = 45
+traget_signal_noise_ration_db = 50
 
 # Читаем входной файл
 input_signal_samplerate, input_signal_data = wavfile.read(wav_file_in_name)
@@ -49,6 +49,13 @@ noise_volts = np.random.normal(mean_noise, np.sqrt(noise_avg_watts), len(input_s
 
 # Добавим шум к сигналу
 output_signal_noise_data = input_signal_data + noise_volts
+
+# Масштабируем отсчёты, если превысят 1, что бы не было переполнения в int16
+scale_value = 1
+for i in range(int(input_signal_length)):
+    if abs(output_signal_noise_data[i]) > scale_value:
+       scale_value = output_signal_noise_data[i]
+output_signal_noise_data = output_signal_noise_data/scale_value
 
 #Запишем сигнал и шум
 output_signal_noise_data *= 32767

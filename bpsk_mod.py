@@ -14,8 +14,8 @@ data_file_name = 'data.txt'
 wav_file_name = 'bpsk_out.wav'
 
 # Параметры файла wav
-samplerate = 48000
-carrier_frequency = 2400
+samplerate = 44100
+carrier_frequency = 2940
 
 # Число отсчётов на один бит данных
 sample_per_carrier = samplerate / carrier_frequency

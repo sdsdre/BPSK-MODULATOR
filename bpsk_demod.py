@@ -18,10 +18,13 @@ input_signal_samplerate, input_signal_data = wavfile.read(wav_file_in_name)
 input_signal_length = input_signal_data.shape[0]
 
 # Частота несущей
-carrier_frequency = 2400
+carrier_frequency = 2940
 
 # Число отсчётов на один бит данных
 sample_per_carrier = input_signal_samplerate / carrier_frequency
+
+# Период семплирования
+input_signal_sampletime = 1 / input_signal_samplerate
 
 # Длительность посылки бит
 signal_length = len(input_signal_data) / sample_per_carrier
@@ -62,7 +65,7 @@ mean_value = 0
 sample_cnt = 0
 output_cnt = 0
 for i in range(int(input_signal_length)):
-    mean_value += output_signal[i]
+    mean_value += (output_signal[i] * input_signal_sampletime)
 
     # Счётчик отсчётов для периода интегрирования
     sample_cnt += 1
