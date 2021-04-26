@@ -15,15 +15,18 @@ wav_file_name = 'bpsk_out.wav'
 
 # Параметры файла wav
 samplerate = 44100
-carrier_frequency = 2940
+carrier_frequency = 2100
+period_per_bit = 8
 
 # Число отсчётов на один бит данных
-sample_per_carrier = samplerate / carrier_frequency
+sample_per_carrier = (samplerate * period_per_bit) / carrier_frequency
 
 # Вывод параметров
 print("Частота дискретизации wav =", samplerate)
 print("Частота несущей =", carrier_frequency)
-print("Число отсчётов на период несущей =", sample_per_carrier)
+print("Число периодов на бит", period_per_bit);
+print("Число отсчётов на период синуса =", samplerate/carrier_frequency);
+print("Число отсчётов на один бит данных =", sample_per_carrier)
 
 # Читаем файл с данными
 with open(data_file_name) as fdata:
@@ -64,11 +67,11 @@ for bit in enumerate(data_array):
 signal_length = sample_per_carrier * len(data_array)
 print("Длина посылки, бит =", len(data_array))
 print("Число отсчётов посылки =", signal_length)
-print("Длина посылки, секунд =", len(data_array)/carrier_frequency)
+print("Длина посылки, секунд =", signal_length/samplerate)
 
 # Формируем отсчёты косинуса
-cos_samples = np.arange(samplerate / carrier_frequency)
-cos_signal = np.sin(2 * np.pi * carrier_frequency * cos_samples / samplerate)
+cos_samples = np.arange(sample_per_carrier)
+cos_signal = np.sin(2 * np.pi * cos_samples * period_per_bit / sample_per_carrier)
 
 # Формруем выходные данные, пока всё 0
 output_signal = np.linspace(0, 0, int(signal_length))
@@ -87,7 +90,6 @@ for i in range(int(signal_length)):
     if(phase_cnt >= sample_per_carrier):
         phase_cnt = 0
         bit_cnt += 1
-    
 
 # Сохраним в файл
 output_signal*= 32767
