@@ -8,10 +8,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Начальная фаза приёма
-start_phase = 0
+start_phase = 167
 
 # Имя входного wav файла
-wav_file_in_name = 'BPSK_2100_8_Music.wav'
+wav_file_in_name = 'BPSK_2100_8_metro_6.wav'
 #wav_file_in_name = "bpsk_out_and_noise_and_low_freq.wav"
 
 # Имя выходного файла с данными
